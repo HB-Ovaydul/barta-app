@@ -38,7 +38,7 @@ class PostController extends Controller
             'barta' => 'required',
         ]);
         Post::create([
-            'uuid' => Str::uuid(),
+            'id' => Str::uuid(),
             'author' => Auth::guard('register')->user()->name.' '.Auth::guard('register')->user()->username,
             'description' => $request->barta
         ]);
@@ -106,3 +106,4 @@ class PostController extends Controller
     }
 
 }
+

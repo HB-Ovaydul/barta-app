@@ -62,7 +62,7 @@
         Keep me in your prayers 😌
       </p> --}}
       <p>{!! Str::words($post->description, '40', '...') !!}
-        <a href="{{ route('single.post',$post->uuid) }}">Read More</a>
+        <a href="{{ route('single.post',$post->id) }}">Read More</a>
       </p>
     </div>
 

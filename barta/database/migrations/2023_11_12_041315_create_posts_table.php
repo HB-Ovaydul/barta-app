@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('uuid',36)->unique();
+            $table->uuid('id')->primary();
             $table->string('slug')->nullable();
             $table->bigInteger('user_id')->default(true);
             $table->string('author')->nullable();
