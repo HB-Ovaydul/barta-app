@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Models\Register;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Post;
 
 class FrontendtViewController extends Controller
 {
-     /**
+    /**
      * Show home Page
      */
-   public function viewHomePage()
-   {
-      return view('frontend.pages.home');
-  }
+    public function viewHomePage()
+    {
+        $posts = Post::latest()->get();
 
+        return view('frontend.pages.home', compact('posts'));
+    }
 }

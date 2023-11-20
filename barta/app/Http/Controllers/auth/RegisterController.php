@@ -5,9 +5,11 @@ namespace App\Http\Controllers\auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRegisterRequest;
 use App\Models\Register;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -21,20 +23,22 @@ class RegisterController extends Controller
 
     /**
      * Get Register.
-      */
+     */
     public function userRegister(UserRegisterRequest $request)
     {
         // Data validation
-       $request->validated();
-       // Data Store
+        $validated = $request->validated();
+        // Data Store
 
-       Register::create([
-            'full_name' => $request->name,
-            'username' => $request->username,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password)
-       ]);
-    return redirect()->route('login.page')->with('success','Your Register Successful Now You Login');
+        Register::create([
+            'id' => Str::uuid(),
+            'name' => $validated['name'],
+            'username' => $validated['username'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return redirect()->route('login.page')->with('success', 'Your Register Successful Now You Login');
     }
 
     /**
@@ -44,19 +48,38 @@ class RegisterController extends Controller
     {
         return view('frontend.auth.login.login');
     }
+
     /**
      * login
      */
     public function loginUser(Request $request)
     {
-        if(!Auth::guard('register')->attempt(['email'=>$request->email, 'password'=>$request->password])){
-            $this->validate($request,[
-                'email' => 'required|exists:registers,email',
-                'password' => 'required|exists:registers,password',
-            ]);
-        }else{
-           return redirect()->route('home.page');
+        $validate = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        //  dd($validate);
+
+        if (Auth::guard('register')->attempt($validate)) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('/');
         }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
     }
 
+    /**
+     *  User Logout
+     */
+    public function logOut()
+    {
+        Auth::guard('register')->logout();
+
+        return redirect()->route('login.page');
+
+    }
 }

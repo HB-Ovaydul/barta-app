@@ -5,7 +5,7 @@ class="bg-white shadow">
   <div class="flex h-16 justify-between">
     <div class="flex">
       <div class="flex flex-shrink-0 items-center">
-        <a href="{{ route('home.page') }}">
+        <a href="{{ route('home.page', Auth::guard('register')->user()->id) }}">
           <h2 class="font-bold text-2xl">Barta</h2>
         </a>
       </div>
@@ -31,7 +31,7 @@ class="bg-white shadow">
               <button
                 type="button"
                 class="text-gray-900 hover:text-white border-2 border-gray-800 hover:bg-gray-900 focus:ring-2 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center hidden md:block">
-                Create Post
+               <a href="{{ route('post.create') }}"> Create Post</a>
               </button>
 
               <button
@@ -93,39 +93,35 @@ class="bg-white shadow">
         </div>
 
          {{-- Dropdown menu --}}
-        <div
-          x-show="open"
-          @click.away="open = false"
-          class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-          role="menu"
-          aria-orientation="vertical"
-          aria-labelledby="user-menu-button"
-          tabindex="-1">
-          <a
-            href="{{ route('user.profile',Auth::guard('register')->user()->id) }}"
-            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            role="menuitem"
-            tabindex="-1"
-            id="user-menu-item-0"
-            >Your Profile</a
-          >
-          <a
-            href="{{ route('edit.profile',Auth::guard('register')->user()->id) }}"
-            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            role="menuitem"
-            tabindex="-1"
-            id="user-menu-item-1"
-            >Edit Profile</a
-          >
-          <a
-            href="{{ route('user.logout') }}"
-            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            role="menuitem"
-            tabindex="-1"
-            id="user-menu-item-2"
-            >Sign out</a
-          >
-        </div>
+
+     <div
+     x-show="open"
+     @click.away="open = false"
+     class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+     role="menu"
+     aria-orientation="vertical"
+     aria-labelledby="user-menu-button"
+     tabindex="-1">
+
+     <a
+       href="{{ route('edit.profile',Auth::guard('register')->user()->id) }}"
+       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+       role="menuitem"
+       tabindex="-1"
+       id="user-menu-item-1"
+       >Edit Profile</a
+     >
+     <a
+       href="{{ route('user.logout') }}"
+       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+       role="menuitem"
+       tabindex="-1"
+       id="user-menu-item-2"
+       >Sign out</a
+     >
+   </div>
+
+
       </div>
     </div>
     <div class="-mr-2 flex items-center sm:hidden">

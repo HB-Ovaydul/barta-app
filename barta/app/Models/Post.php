@@ -4,16 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User;
+use Illuminate\Database\Eloquent\Model;
 
-class Register extends User
+class Post extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = [
-        'name',
-        'username',
-        'email',
-        'password',
-    ];
+    protected $guarded = [];
 }

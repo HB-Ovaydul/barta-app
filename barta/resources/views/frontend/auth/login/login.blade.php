@@ -22,15 +22,13 @@
             <h3>Sign In Your Account</h3>
         </div>
         <div class="card-body">
-            {{-- @php
-                app\Models\Register::
-            @endphp --}}
+            @include('frontend.validation.validation')
             <form action="{{ route('user.login') }}" method="POST">
                 @csrf
                <div class="mb-3">
                     <label for="">Email</label>
                     <input name="email" type="text" class="form-control @error('email') is-invalid
-                    @enderror" placeholder="Enter Your Email">
+                    @enderror" placeholder="Enter Your Email" value="{{ old('email') }}">
                     @error('email')
                     <div class="invalid-feedback">{{ $message }}</div>
                    @enderror
@@ -43,15 +41,18 @@
                    @enderror
                </div>
                <div class="mb-3">
-                    <input  type="submit" class="form-control btn btn-dark" value="Register">
+                    <input  type="submit" class="form-control btn btn-dark" value="Login">
                </div>
             </form>
             <p class="mt-10 text-center text-dark">
                 Already a member?
                 <a style="color:black"
-                  href="./login.html"
+                  href="#"
                   class="text-decoration-none fw-bolder"
-                  >Sign In</a>
+                  >Forget Password</a>
+              </p>
+              <p class="mt-10 text-center text-dark">If You Don't Have Account?
+                <a style="color:black" class="text-decoration-none fw-bolder" href="{{ route('register.page') }}">Sign Up</a>
               </p>
         </div>
     </div>

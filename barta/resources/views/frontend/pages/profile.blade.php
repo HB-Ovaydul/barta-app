@@ -24,7 +24,7 @@
           Username Not Found!
         @endif
 
-          <p class="text-gray-700">Less Talk, More Code 💻</p>
+          <p class="text-gray-700">{{ Auth::guard('register')->user()->bio }}</p>
         </div>
         <!-- / User Meta -->
       </div>

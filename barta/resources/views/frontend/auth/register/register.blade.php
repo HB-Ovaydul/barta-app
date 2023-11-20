@@ -25,15 +25,15 @@
             <form action="{{ route('user.register') }}" method="POST">
                 @csrf
                <div class="mb-3">
-                    <label for="">Full Name</label>
-                    <input name="name" type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Enter Your name">
+                    <label for="">Name</label>
+                    <input name="name" type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Enter Your name" value="{{ old('name') }}">
                     @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                </div>
                <div class="mb-3">
-                    <label for="">User Name</label>
-                    <input name="username" type="text" class="form-control @error('username') is-invalid @enderror" placeholder="Enter Your userName">
+                    <label for="">UserName</label>
+                    <input name="username" type="text" class="form-control @error('username') is-invalid @enderror" placeholder="Enter Your userName" value="{{ old('username') }}">
                     @error('username')
                       <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -41,7 +41,7 @@
                <div class="mb-3">
                     <label for="">Email</label>
                     <input name="email" type="text" class="form-control @error('email') is-invalid
-                    @enderror" placeholder="Enter Your Email">
+                    @enderror" placeholder="Enter Your Email" value="{{ old('email') }}">
                     @error('email')
                     <div class="invalid-feedback">{{ $message }}</div>
                    @enderror
@@ -58,9 +58,9 @@
                </div>
             </form>
             <p class="mt-10 text-center text-dark">
-                Already a member?
+                Already Have Account?
                 <a style="color:black"
-                  href="./login.html"
+                  href="{{ route('login.page') }}"
                   class="text-decoration-none fw-bolder"
                   >Sign In</a>
               </p>
