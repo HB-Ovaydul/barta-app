@@ -1,8 +1,8 @@
-@extends('frontend.layout.app')
+@extends('layouts.app')
 @section('main-content')
 
 
-<form action="{{ route('post.update',$edit_post->id) }}" method="POST" enctype="multipart/form-data" class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-5 sm:px-6 space-y-3">
+<form action="{{ route('posts.update',$edit_post->id) }}" method="POST" enctype="multipart/form-data" class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-5 sm:px-6 space-y-3">
     @csrf
     @method('PUT')
     {{-- <input type="hidden" name="_token" value="PAU6SYQutFs3ItmAxqnouZomfDSml8Vup51tLjzK" autocomplete="off">            <!-- Create Post Card Top --> --}}

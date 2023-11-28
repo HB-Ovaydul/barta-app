@@ -12,13 +12,31 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\Register::factory(1)->create();
+        // \App\Models\User::factory(10)->create();
 
-        // \App\Models\Register::factory()->create([
-        //     'name' => 'HB',
-        //     'username' => 'Ovaydul',
-        //     'email' => 'hovaydul@gmail.com',
-        //     'password' => '123456'
-        // ]);
+        \App\Models\User::factory()->create([
+            'name' => 'HB Ovaydul',
+            'username' => 'Ovaydul',
+            'email' => 'hovaydul@gmail.com',
+            'password' => '12345678'
+        ]);
+        \App\Models\User::factory()->create([
+            'name' => 'Tofajjal Buiyan',
+            'username' => 'Tofajjal',
+            'email' => 'ovaydul@outlook.com',
+            'password' => 'hbhbhbhb'
+        ]);
+        \App\Models\User::factory()->create([
+            'name' => 'Ashraf Uddin',
+            'username' => 'Ashraf',
+            'email' => 'laravel@gmail.com',
+            'password' => 'ashraful'
+        ]);
+        \App\Models\User::factory()->create([
+            'name' => 'Mohammad Amin',
+            'username' => 'Amin',
+            'email' => 'Amin@gmail.com',
+            'password' => '???123'
+        ]);
     }
 }

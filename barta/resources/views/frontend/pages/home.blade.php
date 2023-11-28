@@ -1,9 +1,7 @@
 
-@extends('frontend.layout.app')
+@extends('layouts.app')
 @section('main-content')
+<h1>{{ Auth::user()->name }}</h1>
 
-@include('frontend.validation.validation')
-
-  {{-- post --}}
   @include('frontend.pages.post.post')
 @endsection

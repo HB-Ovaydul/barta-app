@@ -1,29 +1,40 @@
 <?php
 
-use App\Http\Controllers\auth\RegisterController;
-use App\Http\Controllers\Frontend\FrontendtViewController;
+use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\Frontend\PostController;
-use App\Http\Controllers\frontend\UserProfileController;
+use App\Http\Controllers\ProfileController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
-/**
- * Authentication Routes
- */
-// Register Route
-Route::get('/register-page', [RegisterController::class, 'registerPage'])->name('register.page');
-Route::post('/user-register', [RegisterController::class, 'userRegister'])->name('user.register');
-// Login page route
-Route::get('/login-page', [RegisterController::class, 'loginPage'])->name('login.page')->middleware('auth.redirect');
-Route::post('/login', [RegisterController::class, 'loginUser'])->name('user.login');
-Route::get('/user-logout', [RegisterController::class, 'logOut'])->name('user.logout');
-// Frontend view pages Routes
-Route::get('/', [FrontendtViewController::class, 'viewHomePage'])->name('home.page')->middleware('logout');
-Route::get('/user-profile/{id}', [UserProfileController::class, 'viewUserProfile'])->name('user.profile');
-Route::get('/edit-profile/{id}', [UserProfileController::class, 'editProfile'])->name('edit.profile');
-Route::put('/update-profile/{id}', [UserProfileController::class, 'updateProfile'])->name('update.profile');
-/**
- *  Post Resource Route
- */
-Route::resource('/post', PostController::class);
-Route::get('/delete/{id}', [PostController::class, 'delete'])->name('delete.post');
-Route::get('/single-post/{uuid}', [PostController::class, 'singlePost'])->name('single.post');
+Route::get('/', function () {
+    $posts = Post::get();
+
+    return view('frontend.pages.home', compact('posts'));
+})->middleware(['auth'])->name('home.page');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/show-profile', [ProfileController::class, 'showProfile'])
+        ->name('show.profile');
+
+    Route::get('/profile/{id}', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::patch('/profile-update/{id}', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
+
+    Route::get('/my-profile/{id}', [ProfileController::class, 'profiles'])
+        ->name('my.profile');
+    //Post Routes
+    Route::resource('/posts', PostController::class);
+    //Comment Routes
+    Route::resource('/comments',CommentController::class);
+
+    Route::get('/single-post/{id}', [PostController::class, 'singlePost'])
+        ->name('single.post');
+
+});
+
+require __DIR__.'/auth.php';

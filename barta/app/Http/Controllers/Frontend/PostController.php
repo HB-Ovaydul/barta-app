@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Comment;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+
+use function Pest\Laravel\post;
 
 class PostController extends Controller
 {
@@ -17,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('frontend.pages.home');
+
     }
 
     /**
@@ -33,14 +36,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
-         $this->validate($request, [
+        $validate = $request->validate([
             'barta' => 'required',
         ]);
+
         Post::create([
-            'id' => Str::uuid(),
-            'author' => Auth::guard('register')->user()->name.' '.Auth::guard('register')->user()->username,
-            'description' => $request->barta
+            // 'id' => Str::uuid(),
+            'user_id' => Auth::user()->id,
+            'author' => Auth::user()->username,
+            'description' => $validate['barta'],
         ]);
 
         return redirect()->route('home.page');
@@ -73,6 +77,7 @@ class PostController extends Controller
     {
         $post_update = Post::findOrFail($id);
         $post_update->update([
+            'author' => $request->user(),
             'description' => $request->barta,
         ]);
 
@@ -84,26 +89,26 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-
-    }
-
-    public function delete($id)
-    {
         $delete = Post::findOrFail($id);
         $delete->delete();
 
-        return back()->withErrors('success', 'Post Deleted Successful');
+        return redirect()->route('home.page');
     }
 
     /**
      * Show Single Post
      */
-    public function singlePost($uuid) : View
+    public function singlePost($id): View
     {
 
-        $posts = Post::get();
-        return view('frontend.pages.post.single_post',compact('posts'));
+        $single_post = Post::findOrFail($id);
+        $comments = Post::where('id', $id)->with('comments')->first()->get();
+        $commentBody = Comment::where('id', $id)->with('post')->first()->get();
+        // dd($commentBody);
+        return view('frontend.pages.post.single_post',[
+            'single_post'   => $single_post,
+            'comments'       => $comments,
+            'commentBody'       => $commentBody
+        ]);
     }
-
 }
-

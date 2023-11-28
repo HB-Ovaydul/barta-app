@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->string('slug')->nullable();
-            $table->bigInteger('user_id')->default(true);
+            $table->unsignedInteger('user_id')->constrain()->default(0);
             $table->string('author')->nullable();
-            $table->Integer('count_view')->default(1);
+            $table->integer('count_view')->default(1);
             $table->longText('description');
             $table->longText('image')->nullable();
             $table->boolean('status')->default(true);
