@@ -39,11 +39,7 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
-        ],
-        'register' => [
-            'driver' => 'session',
-            'provider' => 'registers',
-        ],
+        ]
     ],
 
     /*
@@ -67,11 +63,7 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
-        ],
-        'registers' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Register::class,
-        ],
+        ]
 
         // 'users' => [
         //     'driver' => 'database',

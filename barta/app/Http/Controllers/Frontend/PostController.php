@@ -102,13 +102,8 @@ class PostController extends Controller
     {
 
         $single_post = Post::findOrFail($id);
-        $comments = Post::where('id', $id)->with('comments')->first()->get();
-        $commentBody = Comment::where('id', $id)->with('post')->first()->get();
-        // dd($commentBody);
         return view('frontend.pages.post.single_post',[
             'single_post'   => $single_post,
-            'comments'       => $comments,
-            'commentBody'       => $commentBody
         ]);
     }
 }

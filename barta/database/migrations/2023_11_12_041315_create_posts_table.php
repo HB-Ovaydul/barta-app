@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->nullable();
-            $table->unsignedInteger('user_id')->constrain()->default(0);
+            $table->foreignId('user_id')->constrained();
+            // $table->foreignId('comment_id')->constrained();
             $table->string('author')->nullable();
             $table->integer('count_view')->default(1);
             $table->longText('description');

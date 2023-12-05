@@ -73,13 +73,13 @@ class ProfileController extends Controller
     public function profiles($id)
     {
        $profile_id = User::find($id);
-       $posts = Post::where('user_id', $id)->get();
-        $totalPostCount = User::where('id', $id)->withCount('posts')->first();
+       $posts = Post::where('user_id', $id)->with('comments')->withCount('comments')->get();
+       $totalPostCount = User::where('id', $id)->withCount('posts','comments')->first();
 
        return view('profile.all_profiles',[
             'profile_id' => $profile_id,
             'posts'      => $posts,
-            'totalPostCount' => $totalPostCount
+            'totalPostCount' => $totalPostCount, 
        ]);
     }
 

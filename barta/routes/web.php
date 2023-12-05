@@ -7,8 +7,7 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    $posts = Post::get();
-
+    $posts = Post::withCount('comments')->get();
     return view('frontend.pages.home', compact('posts'));
 })->middleware(['auth'])->name('home.page');
 
@@ -30,7 +29,7 @@ Route::middleware('auth')->group(function () {
     //Post Routes
     Route::resource('/posts', PostController::class);
     //Comment Routes
-    Route::resource('/comments',CommentController::class);
+    Route::resource('/posts.comments', CommentController::class);
 
     Route::get('/single-post/{id}', [PostController::class, 'singlePost'])
         ->name('single.post');

@@ -7,15 +7,20 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CommentFormRequest;
+use App\Models\Post;
+use App\Models\User;
 
 class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
-        //
+        $posts = Post::where('id', $id)->with('comments')->withCount('comments')->get();
+        return view('frontend.pages.post.comment',[
+            'posts' => $posts,
+        ]);
     }
 
     /**
@@ -29,11 +34,12 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CommentFormRequest $request)
+    public function store(CommentFormRequest $request, $post)
     {
         $validate = $request->validated();
         Comment::create([
-            'post_id'  =>  Auth::user()->id,
+            'post_id'  => $post,
+            'user_id'  => auth()->user()->id,
             'body'  =>  $validate['comment'],
         ]);
         return back();
@@ -44,7 +50,6 @@ class CommentController extends Controller
      */
     public function show(string $id)
     {
-
     }
 
     /**
