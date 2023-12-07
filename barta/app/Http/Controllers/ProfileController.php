@@ -35,11 +35,22 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id): RedirectResponse
     {
+        /**
+        * Update the avatar for the user.
+        */
+        // if($request->hasFile('avatar')){
+        //     $avatar = $request->file('avatar');
+        //     $fileName = md5(time().rand()).'.'.$avatar->clientExtension();
+        //     storage_path('app/public/user/'.$fileName);
+        // }
+        $path = $request->file('avatar')->store('user_profile');
+        // dd($path);
         $profile_update = User::findOrFail($id);
         $profile_update->update([
             $profile_update->name = $request['name'],
             $profile_update->username = $request['username'],
-            $profile_update->bio = $request['bio']
+            $profile_update->bio = $request['bio'],
+            $profile_update->photo = $path,
         ]);
 
 
@@ -79,7 +90,7 @@ class ProfileController extends Controller
        return view('profile.all_profiles',[
             'profile_id' => $profile_id,
             'posts'      => $posts,
-            'totalPostCount' => $totalPostCount, 
+            'totalPostCount' => $totalPostCount,
        ]);
     }
 

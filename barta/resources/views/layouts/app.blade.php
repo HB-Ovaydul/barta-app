@@ -8,9 +8,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- AlpineJS CDN -->
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <link
       rel="preconnect"
@@ -44,5 +41,12 @@
 
     {{-- footer --}}
 @include('layouts.footer.footer')
+
+<script
+defer
+src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script src="{{ asset('assets/bootstrap/js/frontend.js') }}"></script>
+<script src="{{ asset('assets/bootstrap/js/popper.min.js') }}"></script>
+<script src="{{ asset('assets/bootstrap/js/jquery-3.7.1.min.js') }}"></script>
   </body>
 </html>

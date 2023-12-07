@@ -21,6 +21,7 @@
           </div>
 
           <!-- Card Action Dropdown -->
+          @if (auth()->user()->id === $single_post->user->id)
           <div class="flex flex-shrink-0 self-center" x-data="{ open: false }">
             <div class="relative inline-block text-left">
               <div>
@@ -38,6 +39,7 @@
               </div>
             </div>
           </div>
+          @endif
           <!-- /Card Action Dropdown -->
         </div>
       </header>

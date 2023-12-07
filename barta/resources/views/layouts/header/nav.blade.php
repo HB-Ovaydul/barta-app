@@ -87,8 +87,8 @@ class="bg-white shadow">
             <span class="sr-only">Open user menu</span>
             <img
               class="h-8 w-8 rounded-full"
-              src="https://avatars.githubusercontent.com/u/831997"
-              alt="Ahmed Shamim Hasan Shaon" />
+              src="{{ asset('storage/'.Auth::user()->photo) }}"
+              alt="" />
           </button>
         </div>
 

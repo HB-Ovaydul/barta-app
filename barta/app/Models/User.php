@@ -8,10 +8,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -58,4 +62,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+/**
+ * Register Media Conversions
+ */
+public function registerMediaConversions(Media $media = null): void
+{
+    $this
+        ->addMediaConversion('preview')
+        ->fit(Manipulations::FIT_CROP, 300, 300)
+        ->nonQueued();
+}
 }

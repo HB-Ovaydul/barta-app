@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CommentFormRequest;
 use App\Models\Post;
 use App\Models\User;
+use Symfony\Contracts\Service\Attribute\Required;
+
+use function Pest\Laravel\post;
 
 class CommentController extends Controller
 {
@@ -40,7 +43,7 @@ class CommentController extends Controller
         Comment::create([
             'post_id'  => $post,
             'user_id'  => auth()->user()->id,
-            'body'  =>  $validate['comment'],
+            'body'  =>  $validate['body'],
         ]);
         return back();
     }
@@ -55,24 +58,34 @@ class CommentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($postId, $commentId)
     {
-        //
+        $post = Post::findOrFail($postId);
+        $comment = $post->comments()->findOrFail($commentId);
+        // dd($posts, $commentId);
+        return view('frontend.pages.post.edit_comment',compact('post', 'comment'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CommentFormRequest $request, $postId, $commentId)
     {
-        //
+        $validate = $request->validated();
+        $post = Post::findOrFail($postId);
+        $commentUpdate = $post->comments()->findOrFail($commentId);
+        $commentUpdate->update($validate->all());
+        return redirect()->route('posts.comments.index',$post->id);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($postId, $commentId)
     {
-        //
+        $post = Post::findOrFail($postId);
+        $comment = $post->comments()->findOrFail($commentId);
+        $comment->delete();
+        return back();
     }
 }

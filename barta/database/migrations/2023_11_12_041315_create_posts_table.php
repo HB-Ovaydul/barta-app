@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->nullable();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             // $table->foreignId('comment_id')->constrained();
             $table->string('author')->nullable();
             $table->integer('count_view')->default(1);
