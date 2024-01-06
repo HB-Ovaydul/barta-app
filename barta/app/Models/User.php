@@ -27,10 +27,8 @@ class User extends Authenticatable implements HasMedia
         'username',
         'email',
         'password',
+        'photo'
     ];
-    // protected $primaryKey = 'id';
-    // public $incrementing = false;
-    // protected $keyType = 'string';
 
     public function posts()
     {
@@ -73,4 +71,5 @@ public function registerMediaConversions(Media $media = null): void
         ->fit(Manipulations::FIT_CROP, 300, 300)
         ->nonQueued();
 }
+
 }

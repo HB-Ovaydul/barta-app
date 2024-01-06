@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 use function Pest\Laravel\post;
@@ -39,13 +40,17 @@ class PostController extends Controller
         $validate = $request->validate([
             'barta' => 'required',
         ]);
-
-        Post::create([
-            // 'id' => Str::uuid(),
-            'user_id' => Auth::user()->id,
-            'author' => Auth::user()->username,
-            'description' => $validate['barta'],
-        ]);
+        $postImage = '';
+        if($request->hasFile('image')){
+            $postImage = $request->file('image')->store('post_images', 'public');
+        }
+            Post::create([
+                // 'id' => Str::uuid(),
+                'user_id' => Auth::user()->id,
+                'author' => Auth::user()->username,
+                'description' => $validate['barta'],
+                'image'     => $postImage,
+            ]);
 
         return redirect()->route('home.page');
     }

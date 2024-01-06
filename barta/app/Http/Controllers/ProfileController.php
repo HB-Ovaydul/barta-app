@@ -8,6 +8,7 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\ProfileUpdateRequest;
@@ -17,9 +18,11 @@ class ProfileController extends Controller
     /**
      * Show the user profile
      */
-    public function showProfile(): View
+    public function showProfile($id): View
     {
-        return view('profile.profile_main');
+        $users = User::where('id', $id)->withCount('posts','comments')->get();
+        $posts = Post::where('user_id', $id)->withCount('user','comments')->latest()->get();
+        return view('profile.profile_main', compact('users','posts'));
     }
     /**
      * Display the user's profile form.
@@ -38,23 +41,21 @@ class ProfileController extends Controller
         /**
         * Update the avatar for the user.
         */
-        // if($request->hasFile('avatar')){
-        //     $avatar = $request->file('avatar');
-        //     $fileName = md5(time().rand()).'.'.$avatar->clientExtension();
-        //     storage_path('app/public/user/'.$fileName);
-        // }
-        $path = $request->file('avatar')->store('user_profile');
-        // dd($path);
+        $path = '';
+        if($request->hasFile('photo')){
+            $profile_update = User::findOrFail($id);
+            $path = $request->file('photo')->store('photos','public');
+            $profile_update->update([$profile_update->photo = $path]);
+        }
         $profile_update = User::findOrFail($id);
-        $profile_update->update([
+        $profile_update->update($request->only([
             $profile_update->name = $request['name'],
             $profile_update->username = $request['username'],
             $profile_update->bio = $request['bio'],
-            $profile_update->photo = $path,
-        ]);
+        ]));
+        return redirect()->route('profile.edit',$profile_update->id);
 
 
-        return redirect()->route('profile.edit',$profile_update->id)->with('status', 'profile-updated');
     }
 
     /**
@@ -84,16 +85,13 @@ class ProfileController extends Controller
     public function profiles($id)
     {
        $profile_id = User::find($id);
-       $posts = Post::where('user_id', $id)->with('comments')->withCount('comments')->get();
+       $posts = Post::where('user_id', $id)->withCount('comments')->latest()->get();
        $totalPostCount = User::where('id', $id)->withCount('posts','comments')->first();
 
        return view('profile.all_profiles',[
             'profile_id' => $profile_id,
-            'posts'      => $posts,
+            'posts'    => $posts,
             'totalPostCount' => $totalPostCount,
        ]);
     }
-
-
-
 }

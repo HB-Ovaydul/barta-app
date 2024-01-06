@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('slug')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            // $table->foreignId('comment_id')->constrained();
             $table->string('author')->nullable();
             $table->integer('count_view')->default(1);
             $table->longText('description');

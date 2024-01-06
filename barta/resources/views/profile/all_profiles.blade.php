@@ -7,6 +7,7 @@
     <div class="flex gap-4 justify-center flex-col text-center items-center">
       <!-- User Meta -->
       <div>
+        <img class="w-40 h-40 rounded-full object-cover" src="{{ asset('storage/'.$profile_id->photo) }}" alt="">
         <h1 class="font-bold md:text-2xl">{{ $profile_id->name }}</h1>
         <p class="text-gray-700">{{ Auth::user()->bio }}</p>
       </div>

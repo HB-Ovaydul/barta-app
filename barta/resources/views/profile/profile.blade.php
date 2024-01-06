@@ -1,8 +1,11 @@
+
+@foreach ($users as $user)
 <section class="bg-white border-2 p-8 border-gray-800 rounded-xl min-h-[350px] space-y-8 flex items-center flex-col justify-center">
     <!-- Profile Info -->
     <div class="flex gap-4 justify-center flex-col text-center items-center">
       <!-- User Meta -->
       <div>
+        <img class="h-40 w-40 rounded-full object-cover" src="{{ asset('storage/'.auth()->user()->photo) }}" alt="">
         <h1 class="font-bold md:text-2xl">{{ Auth::user()->name }}</h1>
         <p class="text-gray-700">{{ Auth::user()->bio }}</p>
       </div>
@@ -14,13 +17,13 @@
     <div class="flex flex-row gap-16 justify-center text-center items-center">
         <!-- Total Posts Count -->
         <div class="flex flex-col justify-center items-center">
-          <h4 class="sm:text-xl font-bold">3</h4>
+          <h4 class="sm:text-xl font-bold">{{ $user->posts_count }}</h4>
           <p class="text-gray-600">Posts</p>
         </div>
 
         <!-- Total Comments Count -->
         <div class="flex flex-col justify-center items-center">
-          <h4 class="sm:text-xl font-bold">14</h4>
+          <h4 class="sm:text-xl font-bold">{{ $user->comments_count }}</h4>
           <p class="text-gray-600">Comments</p>
         </div>
       </div>
@@ -36,3 +39,4 @@
     </a>
     <!-- /Edit Profile Button -->
   </section>
+  @endforeach

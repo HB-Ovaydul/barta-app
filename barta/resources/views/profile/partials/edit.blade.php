@@ -16,27 +16,51 @@
 
         <div class="mt-10 border-b border-gray-900/10 pb-12">
             {{-- image --}}
-              <div class="col-span-full mt-10 pb-10">
+            @if (auth()->user()->photo)
+            <div class="col-span-full mt-10 pb-10">
                 <label
                   for="photo"
                   class="block text-sm font-medium leading-6 text-gray-900"
                   >Photo</label
                 >
-                <div x-data="{src:'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'}" class="mt-2 flex items-center gap-x-3">
+                <div x-data="{src:'{{ asset('storage/'.auth()->user()->photo) }}'}" class="mt-2 flex items-center gap-x-3">
                     <img
                     class="h-32 w-32 rounded-full object-cover"
                     :src="src"
                     alt=""/>
-                <label for="avatar">
+                <label for="photo">
                   <input @change="src = URL.createObjectURL(event.target.files[0])"
                     class="hidden"
                     type="file"
-                    name="avatar"
-                    id="avatar"/>
+                    name="photo"
+                    id="photo"/>
                       <span class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</span>
                   </label>
                 </div>
               </div>
+            @else
+            <div class="col-span-full mt-10 pb-10">
+                <label
+                  for="photo"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Photo</label
+                >
+                <div x-data="{src:'{{ asset('assets/bootstrap/avatar/User-avatar.png') }}'}" class="mt-2 flex items-center gap-x-3">
+                    <img
+                    class="h-32 w-32 rounded-full object-cover"
+                    :src="src"
+                    alt=""/>
+                <label for="photo">
+                  <input @change="src = URL.createObjectURL(event.target.files[0])"
+                    class="hidden"
+                    type="file"
+                    name="photo"
+                    id="photo"/>
+                      <span class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</span>
+                  </label>
+                </div>
+              </div>
+            @endif
               {{-- image --}}
 
           <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -69,7 +93,6 @@
             </div>
           </div>
         </div>
-
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="col-span-full">
             <label for="bio" class="block text-sm font-medium leading-6 text-gray-900">Bio</label>

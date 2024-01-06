@@ -49,6 +49,10 @@
         <p>
             {{ $single_post->description }}
         </p>
+    @if ($single_post->image)
+      <br>
+      <img class="w-100 h-auto" src="{{ asset('storage/'.$single_post->image) }}" alt="">
+      @endif
       </div>
 
       <!-- Date Created & View Stat -->

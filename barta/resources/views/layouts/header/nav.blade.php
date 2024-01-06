@@ -2,15 +2,14 @@
 x-data="{ mobileMenuOpen: false, userMenuOpen: false }"
 class="bg-white shadow">
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-  <div class="flex h-16 justify-between">
-    <div class="flex">
-      <div class="flex flex-shrink-0 items-center">
-        <a href="{{ route('home.page') }}">
-          <h2 class="font-bold text-2xl">Barta</h2>
-        </a>
-      </div>
-              <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                {{-- &lt;!&ndash; Current: "border-gray-800 text-gray-900 font-semibold", Default: "border-transparent text-gray-600 hover:border-gray-300 hover:text-gray-800" &ndash;&gt; --}}
+    <div class="flex h-16 justify-between">
+        <div class="flex">
+            <div class="flex flex-shrink-0 items-center">
+                <a href="{{ route('home.page') }}">
+                    <h2 class="font-bold text-2xl">Barta</h2>
+                </a>
+            </div>
+<div class="hidden sm:ml-6 sm:flex sm:space-x-8 ">
  <a href="#" class="inline-flex items-center border-b-2 border-gray-800 px-1 pt-1 text-sm font-semibold text-gray-900"
                   >Discover</a
                 >
@@ -26,6 +25,12 @@ class="bg-white shadow">
                 >
               </div>
     </div>
+      {{-- Search --}}
+
+      <form action="{{ route('search.user') }}" method="GET" class="flex items-center left-3">
+        <input type="text" name="query" placeholder="Search..." class="border-2 border-gray-300 bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none">
+      </form>
+      {{-- Search --}}
     <div class="hidden sm:ml-6 sm:flex gap-2 sm:items-center">
        {{-- This Button Should Be Hidden on Mobile Devices --}}
               <button
@@ -85,10 +90,17 @@ class="bg-white shadow">
             aria-expanded="false"
             aria-haspopup="true">
             <span class="sr-only">Open user menu</span>
+            @if (auth()->user()->photo)
             <img
-              class="h-8 w-8 rounded-full"
-              src="{{ asset('storage/'.Auth::user()->photo) }}"
-              alt="" />
+            class="h-8 w-8 rounded-full"
+            src="{{ asset('storage/'.auth()->user()->photo) }}"
+            alt="User Avatar" />
+            @else
+            <img
+            class="h-8 w-8 rounded-full"
+            src="{{ asset('assets/bootstrap/avatar/User-avatar.png') }}"
+            alt="Default Avatar" />
+            @endif
           </button>
         </div>
 
@@ -104,7 +116,7 @@ class="bg-white shadow">
      tabindex="-1">
 
      <a
-     href="{{ route('show.profile') }}"
+     href="{{ route('show.profile',Auth::user()->id) }}"
      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
      >Your Profile</a
    >

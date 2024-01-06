@@ -1,18 +1,17 @@
 <?php
 
-use App\Http\Controllers\Frontend\CommentController;
-use App\Http\Controllers\Frontend\PostController;
-use App\Http\Controllers\ProfileController;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\PostController;
+use App\Http\Controllers\Frontend\SearchController;
+use App\Http\Controllers\Frontend\CommentController;
 
-Route::get('/', function () {
-    $posts = Post::withCount('comments')->get();
-    return view('frontend.pages.home', compact('posts'));
-})->middleware(['auth'])->name('home.page');
+Route::get('/',[HomeController::class, 'homePage'])->middleware(['auth'])->name('home.page');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/show-profile', [ProfileController::class, 'showProfile'])
+    Route::get('/show-profile/{id}', [ProfileController::class, 'showProfile'])
         ->name('show.profile');
 
     Route::get('/profile/{id}', [ProfileController::class, 'edit'])
@@ -33,6 +32,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/single-post/{id}', [PostController::class, 'singlePost'])
         ->name('single.post');
+
+    // Search User
+    Route::get('/search', [SearchController::class, 'searchUser'])
+        ->name('search.user');
 
 });
 

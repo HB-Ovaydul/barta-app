@@ -1,5 +1,13 @@
-@foreach ($posts as $post)
 
+
+@php
+if(isset($_GET['username'])){
+    $search = $_GET['username'];
+    $posts = App\Models\User::where('name', 'LIKE', "%".$search."%")->orwhere('username', 'LIKE', "%"."$search"."%")->get();
+}
+@endphp
+
+@foreach ($posts as $post)
 <article class="bg-white border-2 border-black rounded-lg shadow mx-auto max-w-none px-4 py-5 sm:px-6">
     <!-- Barta Card Top -->
     <header>
@@ -55,6 +63,10 @@
       <p>{!! Str::words($post->description, '40', '...') !!}
         <a href="{{ route('single.post',$post->id) }}">..Read More</a>
       </p>
+      @if ($post->image)
+      <br>
+      <img class="w-100 h-auto" src="{{ asset('storage/'.$post->image) }}" alt="">
+      @endif
     </div>
     <!-- Date Created & View Stat -->
     <div class="flex items-center gap-2 text-gray-500 text-xs my-2">
