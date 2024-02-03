@@ -6,6 +6,7 @@
 /storage/*.key
 /vendor
 /template
+/dashboard
 .env
 .env.backup
 .env.production
